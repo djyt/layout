@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/icons">
+        <file>res/exportCannonball.png</file>
+        <file>res/openFile.png</file>
+        <file>res/saveFile.png</file>
+        <file>res/newFile.png</file>
+        <file>res/exportAndRun.png</file>
+        <file>res/zoomIn.png</file>
+        <file>res/zoomOut.png</file>
+    </qresource>
+    <qresource prefix="/docs">
+        <file>res/license.txt</file>
+    </qresource>
+</RCC>
