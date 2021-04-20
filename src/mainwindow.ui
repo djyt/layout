@@ -1882,6 +1882,7 @@
      </property>
      <addaction name="actionCannonball"/>
      <addaction name="actionCannonBall_Run"/>
+     <addaction name="actionExport_Sprite_Palette"/>
     </widget>
     <widget class="QMenu" name="menuImport">
      <property name="title">
@@ -2110,6 +2111,11 @@
   <action name="actionOutRun_Split">
    <property name="text">
     <string>OutRun Split</string>
+   </property>
+  </action>
+  <action name="actionExport_Sprite_Palette">
+   <property name="text">
+    <string>Export Sprite Palette</string>
    </property>
   </action>
  </widget>

@@ -102,6 +102,8 @@ private slots:
 
     void on_actionOutRun_Split_triggered();
 
+    void on_actionExport_Sprite_Palette_triggered();
+
 protected:
     void closeEvent(QCloseEvent* event);
 
@@ -110,6 +112,7 @@ private:
     QSettings *settings;
     QString projectPath;
     QString exportPath;
+    QString exportPalPath;
     QString exportRunPath;
     GenerateXML *xml;
     Ui::MainWindow *ui;

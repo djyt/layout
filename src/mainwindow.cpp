@@ -140,8 +140,8 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->buttonResetY,SIGNAL(clicked()), resetYMapper, SLOT(map()));
     resetXMapper->setMapping(ui->buttonResetX, 0);
     resetYMapper->setMapping(ui->buttonResetY, 0);
-    connect(resetXMapper, SIGNAL(mapped(int)), ui->spinCameraX, SLOT(setValue(int)));
-    connect(resetYMapper, SIGNAL(mapped(int)), ui->spinCameraY, SLOT(setValue(int)));
+    connect(resetXMapper, SIGNAL(mappedInt(int)), ui->spinCameraX, SLOT(setValue(int)));
+    connect(resetYMapper, SIGNAL(mappedInt(int)), ui->spinCameraY, SLOT(setValue(int)));
 
     connect(ui->slidePosition,    SIGNAL(valueChanged(int)),          ui->spinPosition,         SLOT(setValue(int)));
     connect(ui->spinPosition,     SIGNAL(valueChanged(int)),          ui->slidePosition,        SLOT(setValue(int)));
@@ -303,7 +303,7 @@ MainWindow::MainWindow(QWidget *parent) :
     signalMapper->setMapping (ui->laneButton4, 212);
     signalMapper->setMapping (ui->laneButton5, 310);
     signalMapper->setMapping (ui->laneButton5, 310);
-    connect(signalMapper, SIGNAL(mapped(int)), this, SLOT(updateWidth(int)));
+    connect(signalMapper, SIGNAL(mappedInt(int)), this, SLOT(updateWidth(int)));
 
     xml = new GenerateXML(levels, heightSection, spriteSection);
     loadSettings();
@@ -951,7 +951,7 @@ void MainWindow::initRomData()
         {
             if (importOutRun->loadRevBRoms(settingsDialog->romPath))
             {
-                QRgb* spritePalette = Utils::convertSpritePalette(importOutRun->getPaletteData());
+                QRgb* spritePalette = Utils::convertEntirePaletteToQT(importOutRun->getPaletteData());
                 Sprite::convertSpriteRom(importOutRun->sprites.rom, importOutRun->sprites.length, spritePalette);
                 ui->RenderS16Widget->setData(levels, &heightSections, &spriteSections,
                                              &importOutRun->rom0, &importOutRun->sprites, &importOutRun->rom1, &importOutRun->road);
@@ -1016,6 +1016,7 @@ void MainWindow::loadSettings()
         showMaximized();
     projectPath = settings->value("lastPath").toString();
     exportPath  = settings->value("exportPath").toString();
+    exportPalPath  = settings->value("exportPalPath").toString();
     settingsDialog->cannonballPath = settings->value("cannonballPath").toString();
     settingsDialog->romPath = settings->value("romPath").toString();
     ui->comboGuidelines->setCurrentIndex(settings->value("guidelines").toInt());
@@ -1034,6 +1035,7 @@ void MainWindow::saveSettings()
     settings->setValue("maximized", isMaximized());
     settings->setValue("lastPath", projectPath);
     settings->setValue("exportPath", exportPath);
+    settings->setValue("exportPalPath", exportPalPath);
     settings->setValue("cannonballPath", settingsDialog->cannonballPath);
     settings->setValue("rompath", settingsDialog->romPath);
     settings->setValue("guidelines", ui->comboGuidelines->currentIndex());
@@ -1088,4 +1090,36 @@ void MainWindow::on_actionLicense_Information_triggered()
 void MainWindow::on_actionOnline_Manual_triggered()
 {
     QDesktopServices::openUrl(QUrl("https://github.com/djyt/layout/wiki/LayOut-Manual", QUrl::TolerantMode));
+}
+
+// Export Sprite Palette
+void MainWindow::on_actionExport_Sprite_Palette_triggered()
+{
+    QString filename = QFileDialog::getSaveFileName(this,
+                            *new QString("Select an export file"),
+                            exportPalPath,
+                            *new QString("Sprite Palette Export (*.pal)"));
+
+    if (filename.isEmpty())
+        return;
+
+    exportPalPath = filename;
+
+    QFile file(filename);
+
+    if (!file.open(QIODevice::WriteOnly))
+    {
+        QMessageBox::warning(0, "Read only", "The file is in read only mode");
+        return;
+    }
+
+    QDataStream out(&file);
+    out.setByteOrder(QDataStream::BigEndian);
+    //exportCannon->write(filename, levels, heightSections, spriteSections);
+    uint16_t* pal = Utils::convertEntirePaletteToS16(ui->previewPaletteWidget->getPaletteData());
+    for (int i = 0; i < Utils::SPR_PAL_ENTRIES; i++)
+        out << pal[i];
+
+    file.close();
+
 }
