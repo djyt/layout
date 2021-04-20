@@ -18,6 +18,7 @@ class ExportCannonball : public ExportBase
 {
 public:
     ExportCannonball();
+    virtual ~ExportCannonball();
 
     void write(QString& filename,
                Levels *levels,

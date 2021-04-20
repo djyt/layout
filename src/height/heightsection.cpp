@@ -267,7 +267,7 @@ void HeightSection::moveUp()
     itemParent->setChild(index, swap2);
     itemParent->setChild(index-1, swap1);
 
-    sectionList->swap(index, index-1);
+    sectionList->swapItemsAt(index, index-1);
     levels->swapHeightSections(index, index-1);
     view->selectionModel()->setCurrentIndex(swap1->index(), QItemSelectionModel::ClearAndSelect);
 }
@@ -287,7 +287,7 @@ void HeightSection::moveDown()
         itemParent->setChild(index, swap2);
         itemParent->setChild(index+1, swap1);
 
-        sectionList->swap(index, index+1);
+        sectionList->swapItemsAt(index, index+1);
         levels->swapHeightSections(index, index+1);
         view->selectionModel()->setCurrentIndex(swap1->index(), QItemSelectionModel::ClearAndSelect);
     }

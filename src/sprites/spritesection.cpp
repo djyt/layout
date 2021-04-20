@@ -469,7 +469,7 @@ void SpriteSection::moveUp()
         itemParent->setChild(irow, swap2);
         itemParent->setChild(irow-1, swap1);
 
-        (*sectionList)[prow].sprites.swap(irow, irow-1);
+        (*sectionList)[prow].sprites.swapItemsAt(irow, irow-1);
          view->selectionModel()->setCurrentIndex(swap1->index(), QItemSelectionModel::ClearAndSelect);
     }
     // Move Section Up
@@ -482,7 +482,7 @@ void SpriteSection::moveUp()
         itemParent->setChild(irow, swap2);
         itemParent->setChild(irow-1, swap1);
 
-        sectionList->swap(irow, irow-1);
+        sectionList->swapItemsAt(irow, irow-1);
         levels->swapScenerySections(irow, irow-1);
         view->selectionModel()->setCurrentIndex(swap1->index(), QItemSelectionModel::ClearAndSelect);
     }
@@ -509,7 +509,7 @@ void SpriteSection::moveDown()
             itemParent->setChild(irow, swap2);
             itemParent->setChild(irow+1, swap1);
 
-            (*sectionList)[prow].sprites.swap(irow, irow+1);
+            (*sectionList)[prow].sprites.swapItemsAt(irow, irow+1);
              view->selectionModel()->setCurrentIndex(swap1->index(), QItemSelectionModel::ClearAndSelect);
         }
     }
@@ -525,7 +525,7 @@ void SpriteSection::moveDown()
             itemParent->setChild(irow, swap2);
             itemParent->setChild(irow+1, swap1);
 
-            sectionList->swap(irow, irow+1);
+            sectionList->swapItemsAt(irow, irow+1);
             levels->swapScenerySections(irow, irow+1);
             view->selectionModel()->setCurrentIndex(swap1->index(), QItemSelectionModel::ClearAndSelect);
         }

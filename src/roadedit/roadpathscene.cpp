@@ -318,7 +318,7 @@ void RoadPathScene::drawTooltip(QPainter* painter)
 
     painter->setFont(QFont("Times", 8, QFont::Bold));
 
-    const int w = painter->fontMetrics().width (tipText);
+    const int w = painter->fontMetrics().boundingRect(tipText).width();
     const int h = painter->fontMetrics().height();
     const int x = tipPos.x() - (w >> 1);
     const int y = tipPos.y() - h - CP_SIZE;

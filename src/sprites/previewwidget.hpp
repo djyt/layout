@@ -30,8 +30,16 @@ public:
 signals:
     
 public slots:
+    void recreate();
 
 private:
+    int bank;
+    int offset;
+    int w;
+    int h;
+    bool flip;
+    int pal;
+
     Sprite sprite;
     QImage* image;
     QColor clearColor;

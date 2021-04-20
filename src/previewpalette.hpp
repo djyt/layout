@@ -30,6 +30,7 @@ public:
 signals:
     void sendColor(int entry, uint16_t newColor);
     void isSelected(bool);
+    void refreshPreview();
     
 public slots:
     void setPalette(int);

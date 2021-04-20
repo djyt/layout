@@ -29,6 +29,7 @@ public:
     RomLoader road;
 
     ImportOutRun();
+    virtual ~ImportOutRun();
 
     QList<QString> getLevelNames();
     void unloadRoms();

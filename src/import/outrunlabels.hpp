@@ -8,7 +8,7 @@
 #ifndef OUTRUNLABELS_HPP
 #define OUTRUNLABELS_HPP
 
-#include <Qstring>
+#include <QString>
 
 // ------------------------------------------------------------------------------------------------
 // OutRun Sprite Object
@@ -44,7 +44,7 @@ public:
 
     static const int SHADOW_ON = 2;
 
-    OutrunSprite::OutrunSprite(const char *name, bool hide, int pal, int routine, int shadow = 0)
+    OutrunSprite(const char *name, bool hide, int pal, int routine, int shadow = 0)
     {
         this->name        = QString(name);
         this->canBeHidden = hide;

@@ -122,8 +122,8 @@ void PreviewPalette::mousePressEvent(QMouseEvent *e)
     if (rgb != NULL && pal != -1)
     {
         // Establish which palette entry we're in
-        const int col = e->x() / (width()  / columns);
-        const int row = e->y() / (height() / rows);
+        const int col = e->position().x() / (width()  / columns);
+        const int row = e->position().y() / (height() / rows);
         const int entry = col + (row * columns);
         const int srcColor = pal + entry;
 
@@ -137,8 +137,9 @@ void PreviewPalette::mousePressEvent(QMouseEvent *e)
             if (color.isValid())
             {
                 uint16_t s16Color = Utils::convertToS16(color);
-                rgb[entry] = color.rgb();
+                rgb[srcColor] = color.rgb();
                 emit sendColor(entry, s16Color);
+                emit refreshPreview();
             }
         }
         else if (button == Qt::RightButton && selectionEnabled)
@@ -162,7 +163,7 @@ void PreviewPalette::mousePressEvent(QMouseEvent *e)
     }
 }
 
-void PreviewPalette::enterEvent(QEvent *)
+void PreviewPalette::enterEvent(QEvent*)
 {
     setCursor(Qt::PointingHandCursor);
 }

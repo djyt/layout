@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>919</width>
-    <height>809</height>
+    <width>951</width>
+    <height>868</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -278,7 +278,7 @@
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>2</number>
         </property>
         <property name="elideMode">
          <enum>Qt::ElideNone</enum>
@@ -1868,8 +1868,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>919</width>
-     <height>21</height>
+     <width>951</width>
+     <height>20</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

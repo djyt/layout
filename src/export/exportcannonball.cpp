@@ -21,6 +21,8 @@ ExportCannonball::ExportCannonball()
 {
 }
 
+ExportCannonball::~ExportCannonball(){}
+
 // MACROS: Helper Macros to output specfic data size
 #define out8(x)   out << (int8_t)   x; pos += sizeof(int8_t)
 #define outu8(x)  out << (uint8_t)  x; pos += sizeof(uint8_t)

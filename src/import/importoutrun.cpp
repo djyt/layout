@@ -59,6 +59,8 @@ ImportOutRun::ImportOutRun()
     romsLoaded = false;
 }
 
+ImportOutRun::~ImportOutRun(){}
+
 QList<QString> ImportOutRun::getLevelNames()
 {
     QList<QString> levelList;

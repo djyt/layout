@@ -57,12 +57,12 @@ void GenerateXML::loadProject(QString& filename)
 
         if (token == QXmlStreamReader::StartElement)
         {
-            if (stream.name()      == "settings")        readSettings(stream);
-            else if (stream.name() == "levelList")       readLevelList(stream);
-            else if (stream.name() == "levelMapping")    readLevelMappingData(stream);
-            else if (stream.name() == "heightMaps")      readHeightMapData(stream);
-            else if (stream.name() == "sceneryPatterns") readSceneryPatternData(stream);
-            else if (stream.name() == "sharedPalettes")  readSharedPalettes(stream);
+            if (stream.name()      == QString("settings"))        readSettings(stream);
+            else if (stream.name() == QString("levelList"))       readLevelList(stream);
+            else if (stream.name() == QString("levelMapping"))    readLevelMappingData(stream);
+            else if (stream.name() == QString("heightMaps"))      readHeightMapData(stream);
+            else if (stream.name() == QString("sceneryPatterns")) readSceneryPatternData(stream);
+            else if (stream.name() == QString("sharedPalettes"))  readSharedPalettes(stream);
         }
 
         if (stream.hasError())
@@ -79,13 +79,13 @@ void GenerateXML::readSettings(QXmlStreamReader& stream)
 {
     while (stream.readNext() && !stream.atEnd() && !stream.hasError())
     {
-        if (stream.isStartElement() && stream.name() == "startLine")
+        if (stream.isStartElement() && stream.name() == QString("startLine"))
         {
             QXmlStreamAttributes att = stream.attributes();
             int enabled = getAttInt(att, "enabled");
             levels->setStartLine(enabled);
         }
-        else if (stream.isEndElement() && stream.name() == "settings")
+        else if (stream.isEndElement() && stream.name() == QString("settings"))
             return;
     }
 }
@@ -94,14 +94,14 @@ void GenerateXML::readLevelMappingData(QXmlStreamReader &stream)
 {
     while (stream.readNext() && !stream.atEnd() && !stream.hasError())
     {
-        if (stream.isStartElement() && stream.name() == "stage")
+        if (stream.isStartElement() && stream.name() == QString("stage"))
         {
             QXmlStreamAttributes att = stream.attributes();
             int stage = getAttInt(att, "id");
             int map   = getAttInt(att, "mapping");
             levels->setMappedLevel(stage, map);
         }
-        else if (stream.isEndElement() && stream.name() == "levelMapping")
+        else if (stream.isEndElement() && stream.name() == QString("levelMapping"))
             return;
     }
 }
@@ -116,7 +116,7 @@ void GenerateXML::readLevelList(QXmlStreamReader &stream)
     while (stream.readNext() && !stream.atEnd() && !stream.hasError())
     {
         // Insert New Level & Switch To It
-        if (stream.isStartElement() && stream.name() == "level")
+        if (stream.isStartElement() && stream.name() == QString("level"))
         {
             QXmlStreamAttributes att = stream.attributes();
             QString name = getAttString(att, "name");
@@ -140,28 +140,28 @@ void GenerateXML::readLevelList(QXmlStreamReader &stream)
             levels->renameLevel(levelsCreated, name);
             levelData = (*list)[levelsCreated++];
         }
-        else if (stream.isEndElement() && stream.name() == "level")
+        else if (stream.isEndElement() && stream.name() == QString("level"))
         {
             levelData->updatePathData();
         }
-        else if (stream.isStartElement() && stream.name() == "roadPalette")
+        else if (stream.isStartElement() && stream.name() == QString("roadPalette"))
         {
             QXmlStreamAttributes att = stream.attributes();
             levelData->gndPal  = getAttInt(att, "ground");
             levelData->roadPal = getAttInt(att, "road");
             levelData->skyPal  = getAttInt(att, "sky");
         }
-        else if (stream.isStartElement() && stream.name() == "pathData")
+        else if (stream.isStartElement() && stream.name() == QString("pathData"))
         {
             if (type != Levels::END || endSectionsCreated <= 1)
                 readPathData(stream);
         }
-        else if (stream.isStartElement() && stream.name() == "widthData")   readWidthData(stream);
-        else if (stream.isStartElement() && stream.name() == "heightData")  readHeightData(stream);
-        else if (stream.isStartElement() && stream.name() == "sceneryData") readSceneryData(stream);
+        else if (stream.isStartElement() && stream.name() == QString("widthData"))   readWidthData(stream);
+        else if (stream.isStartElement() && stream.name() == QString("heightData"))  readHeightData(stream);
+        else if (stream.isStartElement() && stream.name() == QString("sceneryData")) readSceneryData(stream);
 
         // We're done inserting levels
-        else if (stream.isEndElement() && stream.name() == "levelList")
+        else if (stream.isEndElement() && stream.name() == QString("levelList"))
             return;
     }
 }
@@ -170,7 +170,7 @@ void GenerateXML::readPathData(QXmlStreamReader& stream)
 {
     while (stream.readNext() && !stream.atEnd() && !stream.hasError())
     {
-        if (stream.isStartElement() && stream.name() == "point")
+        if (stream.isStartElement() && stream.name() == QString("point"))
         {
             int index = 0;
             PathPoint rp;
@@ -183,7 +183,7 @@ void GenerateXML::readPathData(QXmlStreamReader& stream)
             levelData->points->insert(index, rp);
         }
 
-        if (stream.isEndElement() && stream.name() == "pathData")
+        if (stream.isEndElement() && stream.name() == QString("pathData"))
             return;
     }
 }
@@ -192,7 +192,7 @@ void GenerateXML::readWidthData(QXmlStreamReader& stream)
 {
     while (stream.readNext() && !stream.atEnd() && !stream.hasError())
     {
-        if (stream.isStartElement() && stream.name() == "point")
+        if (stream.isStartElement() && stream.name() == QString("point"))
         {
             int index = 0;
             ControlPoint cp;
@@ -206,7 +206,7 @@ void GenerateXML::readWidthData(QXmlStreamReader& stream)
             levelData->widthP.insert(index, cp);
         }
 
-        if (stream.isEndElement() && stream.name() == "widthData")
+        if (stream.isEndElement() && stream.name() == QString("widthData"))
             return;
     }
 }
@@ -215,7 +215,7 @@ void GenerateXML::readHeightData(QXmlStreamReader& stream)
 {
     while (stream.readNext() && !stream.atEnd() && !stream.hasError())
     {
-        if (stream.isStartElement() && stream.name() == "point")
+        if (stream.isStartElement() && stream.name() == QString("point"))
         {
             int index = 0;
             ControlPoint cp;
@@ -229,7 +229,7 @@ void GenerateXML::readHeightData(QXmlStreamReader& stream)
             levelData->heightP.insert(index, cp);
         }
 
-        if (stream.isEndElement() && stream.name() == "heightData")
+        if (stream.isEndElement() && stream.name() == QString("heightData"))
             return;
     }
 }
@@ -240,7 +240,7 @@ void GenerateXML::readHeightMapData(QXmlStreamReader &stream)
 
     while (stream.readNext() && !stream.atEnd() && !stream.hasError())
     {
-        if (stream.isStartElement() && stream.name() == "entry")
+        if (stream.isStartElement() && stream.name() == QString("entry"))
         {            
             seg.data.clear();
 
@@ -251,22 +251,22 @@ void GenerateXML::readHeightMapData(QXmlStreamReader &stream)
             seg.value1 = getAttInt   (att, "value1");
             seg.value2 = getAttInt   (att, "value2");
         }
-        else if (stream.isStartElement() && stream.name() == "data")
+        else if (stream.isStartElement() && stream.name() == QString("data"))
         {
             QXmlStreamAttributes att = stream.attributes();
             QString values = getAttString(att, "value");
-            QStringList split = values.split(",", QString::SkipEmptyParts);
+            QStringList split = values.split(",", Qt::SkipEmptyParts);
 
             foreach(QString s, split)
                 seg.data.push_back((int16_t) s.toInt());
         }
 
-        else if (stream.isEndElement() && stream.name() == "entry")
+        else if (stream.isEndElement() && stream.name() == QString("entry"))
         {
             heightSections->push_back(seg);
         }
 
-        else if (stream.isEndElement() && stream.name() == "heightMaps")
+        else if (stream.isEndElement() && stream.name() == QString("heightMaps"))
         {
             return;
         }
@@ -277,7 +277,7 @@ void GenerateXML::readSceneryData(QXmlStreamReader& stream)
 {
     while (stream.readNext() && !stream.atEnd() && !stream.hasError())
     {
-        if (stream.isStartElement() && stream.name() == "point")
+        if (stream.isStartElement() && stream.name() == QString("point"))
         {
             ControlPoint cp;
 
@@ -289,7 +289,7 @@ void GenerateXML::readSceneryData(QXmlStreamReader& stream)
             levelData->spriteP.push_back(cp);
         }
 
-        if (stream.isEndElement() && stream.name() == "sceneryData")
+        if (stream.isEndElement() && stream.name() == QString("sceneryData"))
             return;
     }
 }
@@ -305,7 +305,7 @@ void GenerateXML::readSceneryPatternData(QXmlStreamReader &stream)
     while (stream.readNext() && !stream.atEnd() && !stream.hasError())
     {
         // Start Pattern
-        if (stream.isStartElement() && stream.name() == "pattern")
+        if (stream.isStartElement() && stream.name() == QString("pattern"))
         {
             section.sprites.clear();
             QXmlStreamAttributes att = stream.attributes();
@@ -314,12 +314,12 @@ void GenerateXML::readSceneryPatternData(QXmlStreamReader &stream)
             section.frequency = getAttInt(att, "freq");
         }
         // End Pattern
-        else if (stream.isEndElement() && stream.name() == "pattern")
+        else if (stream.isEndElement() && stream.name() == QString("pattern"))
         {
             spriteSections->push_back(section);
         }
         // Sprite Entry Within Pattern
-        else if (stream.isStartElement() && stream.name() == "sprite")
+        else if (stream.isStartElement() && stream.name() == QString("sprite"))
         {
             SpriteEntry sprite;
             QXmlStreamAttributes att = stream.attributes();
@@ -333,7 +333,7 @@ void GenerateXML::readSceneryPatternData(QXmlStreamReader &stream)
             section.sprites.push_back(sprite);
         }
         // End
-        else if (stream.isEndElement() && stream.name() == "sceneryPatterns")
+        else if (stream.isEndElement() && stream.name() == QString("sceneryPatterns"))
         {
             spriteSection->generateEntries(sectionNames, spriteNames);
             return;
@@ -345,37 +345,37 @@ void GenerateXML::readSharedPalettes(QXmlStreamReader &stream)
 {
     while (stream.readNext() && !stream.atEnd() && !stream.hasError())
     {
-        if (stream.isStartElement() && stream.name() == "road")
+        if (stream.isStartElement() && stream.name() == QString("road"))
         {
             QXmlStreamAttributes att = stream.attributes();
             QString values = getAttString(att, "value");
-            QStringList split = values.split(",", QString::SkipEmptyParts);
+            QStringList split = values.split(",", Qt::SkipEmptyParts);
 
             for (int i = 0; i < LevelPalette::ROAD_PALS; i++)
                 for (int j = 0; j < LevelPalette::ROAD_LENGTH; j++)
                     levelData->pal->road[i][j] = (uint32_t) split.at(i*LevelPalette::ROAD_LENGTH+j).toInt();
         }
-        else if (stream.isStartElement() && stream.name() == "ground")
+        else if (stream.isStartElement() && stream.name() == QString("ground"))
         {
             QXmlStreamAttributes att = stream.attributes();
             QString values = getAttString(att, "value");
-            QStringList split = values.split(",", QString::SkipEmptyParts);
+            QStringList split = values.split(",", Qt::SkipEmptyParts);
 
             for (int i = 0; i < LevelPalette::GND_PALS; i++)
                 for (int j = 0; j < LevelPalette::GND_LENGTH; j++)
                     levelData->pal->gnd[i][j] = (uint32_t) split.at(i*LevelPalette::GND_LENGTH+j).toInt();
         }
-        else if (stream.isStartElement() && stream.name() == "sky")
+        else if (stream.isStartElement() && stream.name() == QString("sky"))
         {
             QXmlStreamAttributes att = stream.attributes();
             QString values = getAttString(att, "value");
-            QStringList split = values.split(",", QString::SkipEmptyParts);
+            QStringList split = values.split(",", Qt::SkipEmptyParts);
 
             for (int i = 0; i < LevelPalette::SKY_PALS; i++)
                 for (int j = 0; j < LevelPalette::SKY_LENGTH; j++)
                     levelData->pal->sky[i][j] = (uint32_t) split.at(i*LevelPalette::SKY_LENGTH+j).toInt();
         }
-        else if (stream.isEndElement() && stream.name() == "sharedPalettes")
+        else if (stream.isEndElement() && stream.name() == QString("sharedPalettes"))
         {
             return;
         }

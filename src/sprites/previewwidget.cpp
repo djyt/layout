@@ -58,6 +58,14 @@ void SpritePreviewWidget::setSprite( const int bank,
 {
     if (image == NULL)
         return;
+
+    this->bank   = bank;
+    this->offset = offset;
+    this->w      = width;
+    this->h      = height;
+    this->flip   = flip;
+    this->pal    = pal;
+
     image->fill(clearColor);
     sprite.setSprite(bank, offset, width, height, flip, pal);
 
@@ -79,12 +87,38 @@ void SpritePreviewWidget::setSprite(const int bank,
 {
     if (image == NULL)
         return;
+
+    this->bank   = bank;
+    this->offset = offset;
+    this->w      = width;
+    this->h      = height;
+    this->flip   = false;
+    this->pal    = pal;
+
     image->fill(clearColor);
     sprite.setSprite(bank, offset, width, height, pal);
 
     // Paint sprite here.
     const int x = (image->width()  - width) / 2;
     const int y = (image->height() - height) / 2;
+
+    QPainter painter(image);
+    QRect target(x, y, sprite.image->width(), sprite.image->height());
+    painter.drawImage(target, *sprite.image);
+    update();
+}
+
+void SpritePreviewWidget::recreate()
+{
+    if (image == NULL)
+        return;
+
+    image->fill(clearColor);
+    sprite.setSprite(bank, offset, w, h, flip, pal);
+
+    // Paint sprite here.
+    const int x = (image->width()  - w) / 2;
+    const int y = (image->height() - h) / 2;
 
     QPainter painter(image);
     QRect target(x, y, sprite.image->width(), sprite.image->height());

@@ -6,12 +6,13 @@
     See license.txt for more details.
 ***************************************************************************/
 
+#include <QGuiApplication>  // List of screens
+#include <QScreen>
 #include <QFileDialog>      // For file selection
 #include <QStringList>      // For file selection
 #include <QDir>             // For file selection
 #include <QTextStream>      // Licensing dialog box
 #include <QSignalMapper>
-#include <QDesktopWidget>
 #include <QSettings>
 #include <QProcess>
 #include <QMessageBox>
@@ -243,6 +244,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->spinSpriteY,      SIGNAL(valueChanged(int)),          spriteSection,            SLOT(setSpriteY(int)));
     connect(ui->spinSpriteP,      SIGNAL(valueChanged(int)),          spriteSection,            SLOT(setSpriteP(int)));
     connect(ui->spinSpriteP,      SIGNAL(valueChanged(int)),          ui->previewPaletteWidget, SLOT(setPalette(int)));
+    connect(ui->previewPaletteWidget, SIGNAL(refreshPreview()),       ui->spritePreviewWidget,  SLOT(recreate()));
     connect(ui->comboRoutine,     SIGNAL(currentIndexChanged(int)),   spriteSection,            SLOT(setDrawRoutine(int)));
     connect(ui->comboRoutine,     SIGNAL(currentIndexChanged(int)),   this,                     SLOT(setPaletteSpin(int)));
     connect(spriteSection,        SIGNAL(refreshPreview()),           ui->RenderS16Widget,      SLOT(redrawPos()));
@@ -1004,7 +1006,8 @@ void MainWindow::loadSettings()
     const int width = 800;
     const int height = 600;
 
-    QDesktopWidget desk;
+    QScreen *screen = QGuiApplication::primaryScreen();
+    QRect desk = screen->geometry();
 
     settings->beginGroup("MainWindow");
     resize(settings->value("size", QSize(width, height)).toSize());
