@@ -17,18 +17,19 @@
 #include "../levels/levels.hpp"
 #include "../sprites/spriteformat.hpp"
 
-ExportCannonball::ExportCannonball()
-{
-}
-
-ExportCannonball::~ExportCannonball(){}
-
 // MACROS: Helper Macros to output specfic data size
 #define out8(x)   out << (int8_t)   x; pos += sizeof(int8_t)
 #define outu8(x)  out << (uint8_t)  x; pos += sizeof(uint8_t)
 #define out16(x)  out << (int16_t)  x; pos += sizeof(int16_t)
 #define outu16(x) out << (uint16_t) x; pos += sizeof(uint16_t)
 #define outu32(x) out << (uint32_t) x; pos += sizeof(uint32_t)
+
+ExportCannonball::ExportCannonball()
+{
+}
+
+ExportCannonball::~ExportCannonball(){}
+
 
 void ExportCannonball::write(QString& filename,
                              Levels* levels,
