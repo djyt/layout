@@ -24,7 +24,8 @@ public:
 
     static uint16_t convertToS16(QColor value);
     static QRgb convertToQT(uint16_t value);
-    static QRgb* convertSpritePalette(uint8_t* srcPal);
+    static QRgb* convertEntirePaletteToQT(uint8_t* srcPal);
+    static uint16_t* convertEntirePaletteToS16(QRgb* qtPal);
 };
 
 #endif // UTILS_HPP
